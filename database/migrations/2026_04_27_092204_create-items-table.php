@@ -14,8 +14,16 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('item_name');
-            $table->integer('quantity')->nullable();
+            $table->unsignedBigInteger('supplier_id');
+            $table->text('description')->nullable();
+            $table->decimal('price', 8, 2);
+            $table->integer('quantity');
             $table->timestamps();
+
+            $table->foreign('supplier_id')
+                  ->references('id')
+                  ->on('suppliers')
+                  ->onDelete('cascade');
         });
     }
 

@@ -16,7 +16,12 @@ return new class extends Migration
             $table->string('supplier_name');
             $table->string('contact_number');
             $table->string('email_address');
-            $table->string('address');
+            $table->string('street_address');
+            $table->string('barangay');
+            $table->string('city');
+            $table->string('region');
+            $table->string('zip_code');
+            $table->string('country');
             $table->timestamps();
         });
     }

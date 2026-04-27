@@ -9,25 +9,32 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     /**
-     * Mass assignable fields
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
      */
     protected $fillable = [
+        'name',
+        'email',
+        'password',
         'first_name',
         'middle_name',
         'last_name',
-        'email',
         'contact_number',
         'philhealth',
         'sss',
         'pagibig',
-        'password',
+        'role',
     ];
 
     /**
-     * Hidden fields
+     * The attributes that should be hidden for serialization.
+     *
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -35,7 +42,9 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * Casts
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
      */
     protected function casts(): array
     {
@@ -43,10 +52,5 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function employee()
-    {
-        return $this->hasOne(Employee::class);
     }
 }

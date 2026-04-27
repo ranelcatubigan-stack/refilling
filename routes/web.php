@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,12 +16,13 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 Route::get('/employees', [EmployeeController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth'])
     ->name('employees.index');
 
 Route::get('/employees/{id}', [EmployeeController::class, 'show'])
     ->middleware(['auth', 'verified'])
     ->name('employees.show');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +36,16 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::resource('suppliers', SupplierController::class)->only([
+    'index', 'store', 'destroy'
+]);
+
+
+Route::get('/items', [ItemController::class, 'index'])->name('items.index');
+Route::post('/items', [ItemController::class, 'store'])->name('items.store');
+
+Route::get('/items/{id}/edit', [ItemController::class, 'edit'])->name('items.edit');
+Route::put('/items/{id}', [ItemController::class, 'update'])->name('items.update');
+
+Route::delete('/items/{id}', [ItemController::class, 'destroy'])->name('items.destroy');
