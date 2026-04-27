@@ -35,9 +35,6 @@
                     <input type="number" name="quantity" placeholder="Quantity"
                         class="border p-2 rounded w-full" required>
 
-                    <!-- Price -->
-                    <input type="number" step="0.01" name="price" placeholder="Price"
-                        class="border p-2 rounded w-full" required>
 
                     <!-- Description -->
                     <input type="text" name="description" placeholder="Description"
@@ -57,7 +54,6 @@
                                 <th class="p-2 border">Item Name</th>
                                 <th class="p-2 border">Supplier</th>
                                 <th class="p-2 border">Quantity</th>
-                                <th class="p-2 border">Price</th>
                                 <th class="p-2 border">Description</th>
                                 <th class="p-2 border">Action</th>
                             </tr>
@@ -67,12 +63,24 @@
                             @forelse($items as $item)
                                 <tr class="text-center">
                                     <td class="border p-2">{{ $item->id }}</td>
-                                    <td class="border p-2">{{ $item->item_name }}</td>
+                                    <td class="border p-2">
+                                        @if($item->item_name === 'Gallon')
+                                            <span class="bg-blue-600 text-white px-2 py-1 rounded">
+                                                {{ $item->item_name }} (STOCK ITEM)
+                                            </span>
+                                        @else
+                                            {{ $item->item_name }}
+                                        @endif
+                                        @if($item->item_name === 'Gallon')
+                                        <div class="text-xs text-green-600 font-bold">
+                                            Used for Stock IN / OUT
+                                        </div>
+                                        @endif
+                                    </td>
                                     <td class="border p-2">
                                         {{ $item->supplier->supplier_name ?? 'N/A' }}
                                     </td>
-                                    <td class="border p-2">{{ $item->quantity }}</td>
-                                    <td class="border p-2">₱{{ number_format($item->price, 2) }}</td>
+                                    <td class="border p-2">{{ $item->quantity }}</td>                                
                                     <td class="border p-2">{{ $item->description }}</td>
 
                                     <td class="border p-2 space-x-2">
@@ -84,17 +92,21 @@
                                         </a>
 
                                         <!-- DELETE BUTTON -->
-                                        <form action="{{ route('items.destroy', $item->id) }}" method="POST"
-                                            class="inline"
-                                            onsubmit="return confirm('Are you sure you want to delete this item?')">
-                                            @csrf
-                                            @method('DELETE')
+                                        @if($item->item_name === 'Gallon')
+                                            <button disabled class="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed">
+                                                Locked
+                                            </button>
+                                        @else
+                                            <form action="{{ route('items.destroy', $item->id) }}" method="POST"
+                                            class="inline" onsubmit="return confirm('Are you sure you want to delete this item?')">
+                                                @csrf
+                                                @method('DELETE')
 
-                                            <button type="submit"
-                                                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                                                Delete
+                                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                                                 Delete
                                             </button>
                                         </form>
+                                        @endif
 
                                     </td>
                                 </tr>

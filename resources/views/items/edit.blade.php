@@ -48,13 +48,6 @@
                         placeholder="Quantity"
                         required>
 
-                    <!-- Price -->
-                    <input type="number" step="0.01" name="price"
-                        value="{{ $item->price }}"
-                        class="border p-2 rounded w-full"
-                        placeholder="Price"
-                        required>
-
                     <!-- Description -->
                     <input type="text" name="description"
                         value="{{ $item->description }}"

@@ -10,7 +10,6 @@ class Item extends Model
         'item_name',
         'supplier_id',
         'description',
-        'price',
         'quantity',
     ];
 
